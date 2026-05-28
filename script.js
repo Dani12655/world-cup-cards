@@ -1,39 +1,83 @@
-const SUPABASE_URL = 'https://opycaufmvdwtlosorxte.supabase.co';
-const SUPABASE_KEY = 'sb_publishable_D-yNW7TQbREFuKwvqhKXWQ_i11zDYqF';
+const SUPABASE_URL = "const SUPABASE_URL = "https://opycaufmvdwtlosorxte.supabase.co";";
+const SUPABASE_KEY = "sb_publishable_bVCJJfENiN6WBFAh0D6ZTA_sgXXqY-i";
 
-async function loadCards() {
+let user = null;
 
-  const res = await fetch(
-    `${SUPABASE_URL}/rest/v1/cards?select=*`,
-    {
-      headers: {
-        apikey: SUPABASE_KEY,
-        Authorization: `Bearer ${SUPABASE_KEY}`
-      }
-    }
-  );
+async function signup() {
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
 
-  const data = await res.json();
-
-  showCards(data);
+  await fetch(`${SUPABASE_URL}/auth/v1/signup`, {
+    method: "POST",
+    headers: {
+      apikey: SUPABASE_KEY,
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ email, password })
+  });
 }
 
-function showCards(cards) {
+async function login() {
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
 
-  const container = document.getElementById('cards-container');
+  const res = await fetch(`${SUPABASE_URL}/auth/v1/token?grant_type=password`, {
+    method: "POST",
+    headers: {
+      apikey: SUPABASE_KEY,
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ email, password })
+  });
 
-  container.innerHTML = '';
+  const data = await res.json();
+  user = data;
+
+  document.getElementById("auth").style.display = "none";
+  document.getElementById("app").style.display = "block";
+
+  loadCards();
+}
+
+async function loadCards() {
+  const res = await fetch(`${SUPABASE_URL}/rest/v1/cards?select=*`, {
+    headers: {
+      apikey: SUPABASE_KEY,
+      Authorization: `Bearer ${SUPABASE_KEY}`
+    }
+  });
+
+  const cards = await res.json();
+
+  const container = document.getElementById("cards");
+  container.innerHTML = "";
 
   cards.forEach(c => {
     container.innerHTML += `
       <div class="card">
-        <h2>${c.player_name}</h2>
+        <h3>${c.player_name}</h3>
         <p>${c.country}</p>
         <p>Stock: ${c.stock}</p>
-        <p>€${c.price}</p>
+        <button onclick="markCard(${c.id})">Tenho esta carta</button>
       </div>
     `;
   });
 }
 
-loadCards();
+async function markCard(cardId) {
+  await fetch(`${SUPABASE_URL}/rest/v1/user_cards`, {
+    method: "POST",
+    headers: {
+      apikey: SUPABASE_KEY,
+      Authorization: `Bearer ${SUPABASE_KEY}`,
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      user_id: user.user.id,
+      card_id: cardId,
+      has_card: true
+    })
+  });
+
+  alert("Carta marcada!");
+}
