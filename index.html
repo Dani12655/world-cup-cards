@@ -1,40 +1,40 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>World Cup Cards 2026</title>
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-<h1>World Cup Cards 2026</h1>
+  <h1>World Cup Cards 2026</h1>
 
-<div id="auth">
-  <input id="email" placeholder="email">
-  <input id="password" type="password" placeholder="password">
-  <button onclick="login()">Login</button>
-  <button onclick="signup()">Criar conta</button>
-</div>
+  <!-- LOGIN / REGISTO -->
+  <div id="auth">
+    <h2>Login</h2>
 
-<div id="app" style="display:none;">
-  <h2>Cartas</h2>
-  <div id="cards"></div>
-</div>
+    <input id="email" type="email" placeholder="Email">
+    <input id="password" type="password" placeholder="Password">
 
-<script src="script.js"></script>
+    <br>
+
+    <button onclick="login()">Login</button>
+    <button onclick="signup()">Criar conta</button>
+  </div>
+
+  <!-- APP (CARTAS) -->
+  <div id="app" style="display:none;">
+
+    <h2>Cartas Disponíveis</h2>
+
+    <div id="cards"></div>
+
+  </div>
+
+  <!-- SCRIPT -->
+  <script src="script.js"></script>
+
 </body>
 </html>
-
-<div id="auth">
-  <input id="email" placeholder="Email">
-  <input id="password" type="password" placeholder="Password">
-
-  <button onclick="login()">Login</button>
-  <button onclick="signup()">Criar conta</button>
-</div>
-
-<div id="app" style="display:none;">
-  <h2>Cartas</h2>
-  <div id="cards"></div>
-</div>
-<script src="script.js"></script>
-</body>
