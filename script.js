@@ -81,3 +81,58 @@ async function markCard(cardId) {
 
   alert("Carta marcada!");
 }
+
+async function login() {
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+
+  const res = await fetch(
+    `${SUPABASE_URL}/auth/v1/token?grant_type=password`,
+    {
+      method: "POST",
+      headers: {
+        apikey: SUPABASE_KEY,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ email, password })
+    }
+  );
+
+  const data = await res.json();
+
+  if (data.user) {
+    window.user = data.user;
+
+    document.getElementById("auth").style.display = "none";
+    document.getElementById("app").style.display = "block";
+
+    loadCards();
+  } else {
+    alert("Erro no login");
+  }
+}
+
+async function signup() {
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+
+  const res = await fetch(
+    `${SUPABASE_URL}/auth/v1/signup`,
+    {
+      method: "POST",
+      headers: {
+        apikey: SUPABASE_KEY,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ email, password })
+    }
+  );
+
+  const data = await res.json();
+
+  if (data.user) {
+    alert("Conta criada! Agora faz login.");
+  } else {
+    alert("Erro ao criar conta");
+  }
+}
