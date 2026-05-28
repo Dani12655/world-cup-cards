@@ -1,4 +1,4 @@
-const SUPABASE_URL = "const SUPABASE_URL = "https://opycaufmvdwtlosorxte.supabase.co";";
+const SUPABASE_URL = "const SUPABASE_URL = "https://opycaufmvdwtlosorxte.supabase.co";
 const SUPABASE_KEY = "sb_publishable_bVCJJfENiN6WBFAh0D6ZTA_sgXXqY-i";
 
 let user = null;
